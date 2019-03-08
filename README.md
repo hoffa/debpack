@@ -46,7 +46,7 @@ print("Hello, Debpack!")
 
 We want that file to be installed in `/usr/local/bin`, so we add an entry the `.debpack`:
 
-```
+```text
 hello	/usr/local/bin/
 ```
 
