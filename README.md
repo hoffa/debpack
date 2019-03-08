@@ -20,6 +20,12 @@ chmod +x /usr/local/bin/debpack
 debpack
 ```
 
+You can easily overwrite the version at build-time:
+
+```shell
+debpack 1.2.3
+```
+
 You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) Docker image.
 
 For example, in Drone CI you could do:
