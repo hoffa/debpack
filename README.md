@@ -41,7 +41,18 @@ First, generate the boilerplate:
 debpack --init
 ```
 
-Then build the package:
+It'll create the following file structure:
+
+```shell
+.
+├── .debpack
+├── debian
+│   ├── control
+│   └── postinst
+└── hello-world
+```
+
+You can straight away build the package:
 
 ```shell
 debpack
