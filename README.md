@@ -52,8 +52,8 @@ It'll create the following file structure:
 ```shell
 ├── .debpack
 ├── debian
-│   ├── control
-│   └── postinst
+│   └── control
+├── debpack
 └── hello-world
 ```
 
