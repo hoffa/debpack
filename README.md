@@ -37,17 +37,17 @@ For example, in Drone CI you could do:
 
 Let's create a simple package.
 
-Here's our main program, let's call it `hello`:
+First, let's create the main program. We'll call it `ping`:
 
-```python
+```shell
 #!/bin/sh
-echo "Hello!"
+echo pong
 ```
 
 We want that file to be installed in `/usr/local/bin`, so we add an entry the `.debpack`:
 
 ```text
-hello	/usr/local/bin/
+ping	/usr/local/bin/
 ```
 
 Package metadata is stored in the [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html). You can create one using:
