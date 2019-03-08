@@ -23,7 +23,7 @@ patch_control() {
 }
 
 cecho() {
-    printf "\e[1;32m==> $1\e[0m\n"
+    printf "\e[1;32m==> %s\e[0m\n" "$1"
 }
 
 cleanup() {
