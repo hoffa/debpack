@@ -19,3 +19,16 @@ chmod +x /usr/local/bin/debpack
 ```shell
 debpack
 ```
+
+You can also run Debpack using the `hoffa/debpack` Docker image.
+
+In Drone CI, you could do:
+
+```yaml
+debpack:
+  image: hoffa/debpack
+  commands:
+    - debpack ${DRONE_TAG}
+  when:
+    event: tag
+```
