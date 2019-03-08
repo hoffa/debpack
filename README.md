@@ -35,27 +35,23 @@ For example, in Drone CI you could do:
 
 ## Example
 
-First, let's create the main program. We'll call it `ping`:
-
-```shell
-#!/bin/sh
-echo pong
-```
-
-We want that file to be installed in `/usr/local/bin`, so we add an entry the `.debpack`:
-
-```text
-ping	/usr/local/bin/
-```
-
-Package metadata is stored in the [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html). You can create one using:
+First, generate the boilerplate:
 
 ```shell
 debpack --init
 ```
 
-And finally, build the package:
+Then build the package:
 
 ```shell
 debpack
 ```
+
+`.debpack` contains a list of tab-separated copy paths, for example:
+
+```text
+hello-world	/usr/bin/
+hello-world.conf	/etc/init/
+```
+
+Package metadata is stored in the [`control` file](https://www.debian.org/doc/debian-policy/ch-controlfields.html) within the `debian` directory.
