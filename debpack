@@ -16,18 +16,18 @@ Priority: required
 EOL
 }
 
+patch_control() {
+    sed -i '' "s/$2:.*/$2: $3/" "$1"
+}
+
 build() {
-    if [[ -d .package ]]; then
-        rm -r .package
-    fi
+    [[ -d .package ]] && rm -r .package
     mkdir -p .package/DEBIAN
 
     cp debian/control .package/DEBIAN/
 
     # Patch version
-    if [[ -n ${1:-} ]]; then
-        sed -i '' "s/Version:.*/Version: $1/" .package/DEBIAN/control
-    fi
+    [[ -n ${1:-} ]] && patch_control .package/DEBIAN/control Version "$1"
 
     # Copy maintainer scripts
     for file in preinst postinst prerm postrm; do
