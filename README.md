@@ -35,8 +35,6 @@ For example, in Drone CI you could do:
 
 ## Example
 
-Let's create a simple package.
-
 First, let's create the main program. We'll call it `ping`:
 
 ```shell
