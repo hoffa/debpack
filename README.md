@@ -25,7 +25,7 @@ You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) D
 For example, in Drone CI you could do:
 
 ```yaml
-debpack:
+- name: debpack
   image: hoffa/debpack
   commands:
     - debpack ${DRONE_TAG}
