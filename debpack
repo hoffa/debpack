@@ -41,7 +41,7 @@ build() {
     done
 
     dpkg-deb --build .package
-    dpkg-name .package.deb
+    dpkg-name --overwrite .package.deb
 }
 
 case ${1:-build} in
