@@ -32,3 +32,28 @@ For example, in Drone CI you could do:
   when:
     event: tag
 ```
+
+## Example
+
+Let's create a simple package.
+
+Here's our main program, let's call it `hello`:
+
+```python
+#!/usr/bin/env python
+print("Hello, Debpack!")
+```
+
+We want that file to be installed in `/usr/local/bin`, so we add an entry the `.debpack`:
+
+```
+hello	/usr/local/bin/
+```
+
+Package metadata is stored in the [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html). You can create one using:
+
+```shell
+debpack --init
+```
+
+Our package depends on Python, so open the `debian/control` file and add `python` to the [`Depends`](https://www.debian.org/doc/debian-policy/ch-relationships.html#binary-dependencies-depends-recommends-suggests-enhances-pre-depends) field.
