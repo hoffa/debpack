@@ -57,3 +57,9 @@ debpack --init
 ```
 
 Our package depends on Python, so open the `debian/control` file and add `python` to the [`Depends`](https://www.debian.org/doc/debian-policy/ch-relationships.html#binary-dependencies-depends-recommends-suggests-enhances-pre-depends) field.
+
+And finally, build the package:
+
+```shell
+debpack
+```
