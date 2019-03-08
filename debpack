@@ -30,14 +30,15 @@ build() {
         fi
     done
 
-    while IFS= read -r line || [[ -n ${line} ]]; do
+    # Fail if no .debpack
+    cat .debpack | while IFS= read -r line || [[ -n ${line} ]]; do
         src=$(echo "${line}" | cut -f1)
         dst=.package$(echo "${line}" | cut -f2)
         mkdir -p "${dst%/*}"
         # Allow source wildcards
         # shellcheck disable=SC2086
         cp ${src} "${dst}"
-    done < .debpack
+    done
 
     dpkg-deb --build .package
     dpkg-name .package.deb
