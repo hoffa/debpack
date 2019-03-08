@@ -44,7 +44,6 @@ debpack --init
 It'll create the following file structure:
 
 ```shell
-.
 ├── .debpack
 ├── debian
 │   ├── control
