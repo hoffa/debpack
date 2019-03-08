@@ -40,7 +40,7 @@ build() {
         cp -v ${src} "${dst}"
     done
 
-    dpkg-deb --build .package
+    fakeroot dpkg-deb --build .package
     dpkg-name --overwrite .package.deb
 }
 
