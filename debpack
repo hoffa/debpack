@@ -10,7 +10,7 @@ Description: ${name}
 Version: 0.0.1
 Depends:
 Maintainer: Jane Doe <jane@doe.com>
-Architecture: any
+Architecture: amd64
 Section: misc
 Priority: required
 EOL
