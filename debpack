@@ -1,26 +1,57 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-rm -r .package
-mkdir -p .package/DEBIAN
+init() {
+    mkdir debian
+    name=${PWD##*/}
+    cat > debian/control << EOL
+Package: ${name}
+Description: ${name}
+Version: 0.0.1
+Depends:
+Maintainer: Jane Doe <jane@doe.com>
+Architecture: all
+Section: misc
+Priority: required
+EOL
+}
 
-cp debian/control .package/DEBIAN/
+build() {
+    rm -r .package
+    mkdir -p .package/DEBIAN
 
-# Copy maintainer scripts
-for file in preinst postinst prerm postrm; do
-    if [[ -f debian/${file} ]]; then
-        cp "debian/${file}" .package/DEBIAN/
-        chmod 0755 ".package/DEBIAN/${file}"
-    fi
-done
+    cp debian/control .package/DEBIAN/
 
-while IFS= read -r line || [[ -n ${line} ]]; do
-    src=$(echo "${line}" | cut -f1)
-    dst=.package$(echo "${line}" | cut -f2)
-    mkdir -p "${dst%/*}"
-    # shellcheck disable=SC2086
-    cp -v ${src} "${dst}"
-done < cpkg
+    # Copy maintainer scripts
+    for file in preinst postinst prerm postrm; do
+        if [[ -f debian/${file} ]]; then
+            cp "debian/${file}" .package/DEBIAN/
+            chmod 0755 ".package/DEBIAN/${file}"
+        fi
+    done
 
-dpkg-deb --build .package
-dpkg-name .package.deb
+    while IFS= read -r line || [[ -n ${line} ]]; do
+        src=$(echo "${line}" | cut -f1)
+        dst=.package$(echo "${line}" | cut -f2)
+        mkdir -p "${dst%/*}"
+        # Allow source wildcards
+        # shellcheck disable=SC2086
+        cp ${src} "${dst}"
+    done < .debpack
+
+    dpkg-deb --build .package
+    dpkg-name .package.deb
+}
+
+case ${1:-build} in
+    init)
+        init
+        ;;
+    build)
+        build
+        ;;
+    *)
+        echo "Usage: $0 {build,init}"
+        exit 1
+        ;;
+esac
