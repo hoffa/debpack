@@ -40,8 +40,8 @@ Let's create a simple package.
 Here's our main program, let's call it `hello`:
 
 ```python
-#!/usr/bin/env python
-print("Hello, Debpack!")
+#!/bin/sh
+echo "Hello!"
 ```
 
 We want that file to be installed in `/usr/local/bin`, so we add an entry the `.debpack`:
@@ -55,8 +55,6 @@ Package metadata is stored in the [control file](https://www.debian.org/doc/debi
 ```shell
 debpack --init
 ```
-
-Our package depends on Python, so open the `debian/control` file and add `python` to the [`Depends`](https://www.debian.org/doc/debian-policy/ch-relationships.html#binary-dependencies-depends-recommends-suggests-enhances-pre-depends) field.
 
 And finally, build the package:
 
