@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rm -r .package
+mkdir -p .package/DEBIAN
+
+cp debian/control .package/DEBIAN/
+
+# Copy maintainer scripts
+for file in preinst postinst prerm postrm; do
+    if [[ -f debian/${file} ]]; then
+        cp "debian/${file}" .package/DEBIAN/
+        chmod 0755 ".package/DEBIAN/${file}"
+    fi
+done
+
+while IFS= read -r line || [[ -n ${line} ]]; do
+    src=$(echo "${line}" | cut -f1)
+    dst=.package$(echo "${line}" | cut -f2)
+    mkdir -p "${dst%/*}"
+    # shellcheck disable=SC2086
+    cp -v ${src} "${dst}"
+done < cpkg
+
+dpkg-deb --build .package
+dpkg-name .package.deb
