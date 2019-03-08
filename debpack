@@ -20,14 +20,22 @@ patch_control() {
     sed -i '' "s/$2:.*/$2: $3/" "$1"
 }
 
-build() {
-    [[ -d .package ]] && rm -r .package
-    mkdir -p .package/DEBIAN
+cleanup() {
+    if [[ -d .package ]]; then
+        rm -r .package
+    fi
+}
 
+build() {
+    cleanup
+
+    mkdir -p .package/DEBIAN
     cp debian/control .package/DEBIAN/
 
     # Patch version
-    [[ -n ${1:-} ]] && patch_control .package/DEBIAN/control Version "$1"
+    if [[ -n ${1:-} ]]; then
+        patch_control .package/DEBIAN/control Version "$1"
+    fi
 
     # Copy maintainer scripts
     for file in preinst postinst prerm postrm; do
@@ -50,6 +58,8 @@ build() {
     fakeroot dpkg-deb --build .package
     dpkg-deb --info .package.deb
     dpkg-name --overwrite .package.deb
+
+    cleanup
 }
 
 case ${1:-} in
