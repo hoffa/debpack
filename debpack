@@ -6,7 +6,7 @@ init() {
     cat > debian/control << EOL
 Package: hello-world
 Description: hello-world
-Version: 0.0.1
+Version: 1.0.0
 Depends:
 Maintainer: Jane Doe <jane@doe.com>
 Architecture: all
@@ -18,12 +18,12 @@ EOL
 set -x
 EOL
     chmod +x debian/postinst
-    printf "hello-world\t/usr/bin/" > .debpack
     cat > hello-world << EOL
 #!/bin/sh
 echo "Hello, world!"
 EOL
     chmod +x hello-world
+    printf "hello-world\t/usr/bin/" > .debpack
 }
 
 patch_control() {
