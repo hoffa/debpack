@@ -3,17 +3,27 @@ set -euo pipefail
 
 init() {
     mkdir debian
-    name=${PWD##*/}
     cat > debian/control << EOL
-Package: ${name}
-Description: ${name}
+Package: hello-world
+Description: hello-world
 Version: 0.0.1
 Depends:
 Maintainer: Jane Doe <jane@doe.com>
-Architecture: amd64
+Architecture: all
 Section: misc
 Priority: required
 EOL
+    cat > debian/postinst << EOL
+#!/bin/sh
+set -x
+EOL
+    chmod +x debian/postinst
+    printf "hello-world\t/usr/bin/" > .debpack
+    cat > hello-world << EOL
+#!/bin/sh
+echo "Hello, world!"
+EOL
+    chmod +x hello-world
 }
 
 patch_control() {
