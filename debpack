@@ -51,6 +51,9 @@ build() {
 }
 
 case ${1:-} in
+    --help)
+        echo "Usage: $0 [version] [--init] [--help]"
+        ;;
     --init)
         init
         ;;
