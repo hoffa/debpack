@@ -17,7 +17,7 @@ EOL
 }
 
 build() {
-    rm -r .package
+    [[ -d .package ]] && rm -r .package
     mkdir -p .package/DEBIAN
 
     cp debian/control .package/DEBIAN/
