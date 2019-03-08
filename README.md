@@ -53,7 +53,6 @@ It'll create the following file structure:
 ├── .debpack
 ├── debian
 │   └── control
-├── debpack
 └── hello-world
 ```
 
@@ -71,3 +70,5 @@ hello-world.conf	/etc/init/
 ```
 
 Package metadata is stored in the [`control` file](https://www.debian.org/doc/debian-policy/ch-controlfields.html) within the `debian` directory.
+
+You can add [maintainer scripts](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html) to `debian`.
