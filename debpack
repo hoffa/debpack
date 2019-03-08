@@ -16,11 +16,16 @@ Priority: required
 EOL
 }
 
+patch_version() {
+    sed -i '' "s/Version:.*/Version: $2/" "$1"
+}
+
 build() {
     [[ -d .package ]] && rm -r .package
     mkdir -p .package/DEBIAN
 
     cp debian/control .package/DEBIAN/
+    [[ -n ${1:-} ]] && patch_version .package/DEBIAN/control "$1"
 
     # Copy maintainer scripts
     for file in preinst postinst prerm postrm; do
@@ -41,18 +46,15 @@ build() {
     done
 
     fakeroot dpkg-deb --build .package
+    dpkg-deb --info .package.deb
     dpkg-name --overwrite .package.deb
 }
 
-case ${1:-build} in
-    init)
+case ${1:-} in
+    --init)
         init
         ;;
-    build)
-        build
-        ;;
     *)
-        echo "Usage: $0 {build,init}"
-        exit 1
+        build "$@"
         ;;
 esac
