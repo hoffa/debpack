@@ -67,7 +67,7 @@ mkdir debian
 cat > debian/control << EOF
 Package: ping
 Version: 1.0.0
-Maintainer: Chris Rehn <chris@rehn.me>
+Maintainer: Jane Doe <jane@doe.com>
 Description: writes pong to stdout
 Architecture: all
 EOF
