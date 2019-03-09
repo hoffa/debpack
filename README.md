@@ -46,7 +46,8 @@ For example, in Drone CI you could do:
 First, let's create a simple program called `ping` that prints out `pong`:
 
 ```shell
-echo -e '#!/bin/sh\necho pong' > ping
+echo '#!/bin/sh
+echo pong' > ping
 chmod +x ping
 ```
 
@@ -54,13 +55,11 @@ The package will need some metadata. Debian packages keep their metadata in a [c
 
 ```shell
 mkdir debian
-cat > debian/control << EOF
-Package: ping
+echo 'Package: ping
 Description: writes pong to stdout
 Version: 1.0.0
 Maintainer: Chris Rehn <chris@rehn.me>
-Architecture: all
-EOF
+Architecture: all' > debian/control
 ```
 
 We also need to specify where our files will be copied when installing the package:
