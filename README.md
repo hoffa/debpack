@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/hoffa/debpack.svg?branch=master)](https://travis-ci.org/hoffa/debpack)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8904076ca8ad4882a5a2052620a6dc2f)](https://app.codacy.com/app/hoffa/debpack?utm_source=github.com&utm_medium=referral&utm_content=hoffa/debpack&utm_campaign=Badge_Grade_Settings)
 
-Super simple internal Debian packages.
+Super simple Debian packages.
 
 Adheres to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/) where reasonable, without bogging you down with useless fluff.
 
@@ -12,6 +12,18 @@ Adheres to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/)
 ```shell
 curl -Lo /usr/local/bin/debpack https://raw.githubusercontent.com/hoffa/debpack/master/debpack
 chmod +x /usr/local/bin/debpack
+```
+
+Also requires `dpkg-dev`:
+
+```shell
+apt-get install dpkg-dev
+```
+
+On macOS:
+
+```shell
+brew install dpkg fakeroot
 ```
 
 ## Usage
