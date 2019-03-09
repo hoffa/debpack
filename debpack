@@ -82,7 +82,14 @@ build() {
 }
 
 print_usage() {
-    echo "Usage: $0 [version] [--help]"
+    cat << EOF
+Usage: $0 [-h] [options] [fields...]
+
+Options:
+  -d PATH  Control files directory (default: debian)
+  -f FILE  Debpackfile path (default: Debpackfile)
+  -h       Show this message
+EOF
 }
 
 debpackfile_path=Debpackfile
@@ -92,6 +99,7 @@ while getopts "hf:d:" opt; do
     case ${opt} in
         h)
             print_usage
+            exit
             ;;
         f)
             debpackfile_path=${OPTARG}
@@ -99,11 +107,9 @@ while getopts "hf:d:" opt; do
         d)
             debian_path=${OPTARG}
             ;;
-        \?)
+        \?|*)
             print_usage
             exit 1
-            ;;
-        *)
             ;;
     esac
 done
