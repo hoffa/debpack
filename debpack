@@ -22,8 +22,11 @@ EOL
 }
 
 patch_control() {
-    grep -v "$2:" "$1" > "$1.tmp"
-    echo "$2: $3" >> "$1.tmp"
+    key=$(echo "$2" | cut -d: -f1)
+    value=$(echo "$2" | cut -d: -f2- | sed 's/^[[:space:]]*//')
+
+    grep -v "${key}:" "$1" > "$1.tmp"
+    echo "${key}: ${value}" >> "$1.tmp"
     mv "$1.tmp" "$1"
 }
 
@@ -51,7 +54,7 @@ build() {
     cecho "Patching control file"
     if [[ -n ${1:-} ]]; then
         # Patch version
-        patch_control .package/DEBIAN/control Version "$1"
+        patch_control .package/DEBIAN/control "Version:$1"
     fi
     diff -u debian/control .package/DEBIAN/control || true
 
