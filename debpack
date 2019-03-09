@@ -49,8 +49,8 @@ build() {
     # Allow building packages by only specifying fields through the command line
     green "Copying control file"
     control_file_path=${control_dir}/control
-    if [[ ! -f ${control_dir}/control ]]; then
-        yellow "Control file not found; assuming empty"
+    if [[ ! -f ${control_file_path} ]]; then
+        yellow "${control_file_path} not found; assuming empty"
         control_file_path=/dev/null
     fi
     cp -v "${control_file_path}" .debpack/DEBIAN/control
@@ -74,6 +74,7 @@ build() {
     done
 
     green "Copying files"
+    # Don't allow empty packages
     if [[ ! -f ${debpackfile_path} ]]; then
         red "Debpackfile not found"
         exit 1
