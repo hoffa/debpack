@@ -63,7 +63,7 @@ Architecture: all
 EOF
 ```
 
-We then create a `Debpackfile` that specifies where our files will be copied when installing the package:
+We then create a `Debpackfile` that specifies where to copy the files when installing the package:
 
 ```shell
 echo -e 'ping\t/usr/bin/' > Debpackfile
