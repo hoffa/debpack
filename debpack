@@ -37,7 +37,7 @@ build() {
     mkdir -p .debpack/DEBIAN
 
     green "Copying control file"
-    cp -v "${debian_path}/control" .debpack/DEBIAN/
+    cp -v "${control_dir}/control" .debpack/DEBIAN/
 
     green "Patching control file"
     for field in "$@"; do
@@ -47,12 +47,12 @@ build() {
         fi
         patch_control .debpack/DEBIAN/control "${field}"
     done
-    diff -u "${debian_path}/control" .debpack/DEBIAN/control || true
+    diff -u "${control_dir}/control" .debpack/DEBIAN/control || true
 
     green "Copying maintainer scripts"
     for file in preinst postinst prerm postrm; do
-        if [[ -f ${debian_path}/${file} ]]; then
-            cp -v "${debian_path}/${file}" .debpack/DEBIAN/
+        if [[ -f ${control_dir}/${file} ]]; then
+            cp -v "${control_dir}/${file}" .debpack/DEBIAN/
             chmod 0755 ".debpack/DEBIAN/${file}"
         fi
     done
@@ -93,7 +93,7 @@ EOF
 }
 
 debpackfile_path=Debpackfile
-debian_path=debian
+control_dir=debian
 
 while getopts "hf:d:" opt; do
     case ${opt} in
@@ -105,7 +105,7 @@ while getopts "hf:d:" opt; do
             debpackfile_path=${OPTARG}
             ;;
         d)
-            debian_path=${OPTARG}
+            control_dir=${OPTARG}
             ;;
         \?|*)
             print_usage
