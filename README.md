@@ -43,7 +43,7 @@ For example, in Drone CI you could do:
 
 ## Example
 
-First, let's create a simple program called `ping` that prints out `pong`:
+First, let's create a simple program called `ping` that outputs `pong`:
 
 ```shell
 echo -e '#!/bin/sh\necho pong' > ping
@@ -63,7 +63,7 @@ Architecture: all
 EOF
 ```
 
-We then specify where our files will be copied when installing the package:
+We then create a `Debpackfile` that specifies where our files will be copied when installing the package:
 
 ```shell
 echo -e 'ping\t/usr/bin/' > Debpackfile
@@ -71,7 +71,7 @@ echo -e 'ping\t/usr/bin/' > Debpackfile
 
 The `Debpackfile` uses a very simple format: each line contains a source and destination path, separated by a tab character.
 
-Finally, we can build our package:
+Finally, we can build the package:
 
 ```shell
 debpack
