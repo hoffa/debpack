@@ -120,7 +120,7 @@ EOF
 debpackfile_path=Debpackfile
 control_dir=debian
 
-while getopts "hf:d:" opt; do
+while getopts ":hf:d:" opt; do
     case ${opt} in
         h)
             print_usage
