@@ -50,7 +50,7 @@ echo -e '#!/bin/sh\necho pong' > ping
 chmod +x ping
 ```
 
-The package will need some metadata. Debian packages keep their metadata in a [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control).
+The package will need some metadata. Debian packages keep their metadata in a [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control), located in `debian/control`:
 
 ```shell
 mkdir debian
@@ -63,25 +63,18 @@ Architecture: all
 EOF
 ```
 
-We also need to specify where our files will be copied when installing the package:
+We then specify where our files will be copied when installing the package:
 
 ```shell
 echo -e 'ping\t/usr/bin/' > Debpackfile
 ```
 
-Finally, build the package:
+The `Debpackfile` uses a very simple format: each line contains a source and destination path, separated by a tab character.
+
+Finally, we can build our package:
 
 ```shell
 debpack
 ```
-
-`Debpack` contains a list of tab-separated copy paths, for example:
-
-```text
-hello-world	/usr/bin/
-hello-world.conf	/etc/init/
-```
-
-Package metadata is stored in the [`control` file](https://www.debian.org/doc/debian-policy/ch-controlfields.html) within the `debian` directory.
 
 You can add [maintainer scripts](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html) to `debian`.
