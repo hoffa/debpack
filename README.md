@@ -5,11 +5,9 @@
 
 Super simple Debian packages.
 
-Adheres to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/) where reasonable, without bogging you down with useless fluff.
+Adheres to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/) where reasonable, without bogging you down with needless ceremony.
 
 ## Installation
-
-Debpack is a single Bash script:
 
 ```shell
 curl -Lo /usr/local/bin/debpack https://raw.githubusercontent.com/hoffa/debpack/master/debpack
@@ -33,8 +31,6 @@ brew install dpkg fakeroot
 ```shell
 debpack
 ```
-
-You can easily overwrite the version at build-time:
 
 [Control file fields](https://www.debian.org/doc/debian-policy/ch-controlfields.html) can be easily modified at build-time:
 
@@ -70,9 +66,9 @@ The package will need some metadata. Debian packages keep their metadata in a [c
 mkdir debian
 cat > debian/control << EOF
 Package: ping
-Description: writes pong to stdout
 Version: 1.0.0
 Maintainer: Chris Rehn <chris@rehn.me>
+Description: writes pong to stdout
 Architecture: all
 EOF
 ```
@@ -90,5 +86,3 @@ Finally, we can build the package:
 ```shell
 debpack
 ```
-
-You can add [maintainer scripts](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html) to `debian`.
