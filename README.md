@@ -22,8 +22,10 @@ debpack
 
 You can easily overwrite the version at build-time:
 
+[Control file fields](https://www.debian.org/doc/debian-policy/ch-controlfields.html) can be easily overwritten at build-time:
+
 ```shell
-debpack 1.2.3
+debpack Version:1.2.3 Architecture:i386
 ```
 
 You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) Docker image.
