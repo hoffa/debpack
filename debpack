@@ -47,17 +47,17 @@ red() {
 }
 
 cleanup() {
-    if [[ -d .package ]]; then
-        rm -r .package
+    if [[ -d .debpack ]]; then
+        rm -r .debpack
     fi
 }
 
 build() {
     cleanup
-    mkdir -p .package/DEBIAN
+    mkdir -p .debpack/DEBIAN
 
     green "Copying control file"
-    cp -v debian/control .package/DEBIAN/
+    cp -v "${debian_path}/control" .debpack/DEBIAN/
 
     green "Patching control file"
     for field in "$@"; do
@@ -65,23 +65,23 @@ build() {
             red "Invalid field format: ${field}"
             exit 1
         fi
-        patch_control .package/DEBIAN/control "${field}"
+        patch_control .debpack/DEBIAN/control "${field}"
     done
-    diff -u debian/control .package/DEBIAN/control || true
+    diff -u "${debian_path}/control" .debpack/DEBIAN/control || true
 
     green "Copying maintainer scripts"
     for file in preinst postinst prerm postrm; do
-        if [[ -f debian/${file} ]]; then
-            cp -v "debian/${file}" .package/DEBIAN/
-            chmod 0755 ".package/DEBIAN/${file}"
+        if [[ -f ${debian_path}/${file} ]]; then
+            cp -v "${debian_path}/${file}" .debpack/DEBIAN/
+            chmod 0755 ".debpack/DEBIAN/${file}"
         fi
     done
 
     green "Copying files"
-    # Fail if no .debpack
-    cat < .debpack | while IFS= read -r line || [[ -n ${line} ]]; do
+    # Fail if no Debpackfile
+    cat < "${debpackfile_path}" | while IFS= read -r line || [[ -n ${line} ]]; do
         src=$(echo "${line}" | cut -f1)
-        dst=.package$(echo "${line}" | cut -f2)
+        dst=.debpack$(echo "${line}" | cut -f2)
         mkdir -p "${dst%/*}"
         # Allow source wildcards
         # shellcheck disable=SC2086
@@ -89,11 +89,11 @@ build() {
     done
 
     green "Building package"
-    fakeroot dpkg-deb --build .package
+    fakeroot dpkg-deb --build .debpack
 
-    dpkg-deb --info .package.deb
-    dpkg --contents .package.deb
-    dpkg-name --overwrite .package.deb
+    dpkg-deb --info .debpack.deb
+    dpkg --contents .debpack.deb
+    dpkg-name --overwrite .debpack.deb
 
     green "Cleaning up"
     cleanup
@@ -101,14 +101,36 @@ build() {
     green "Done"
 }
 
-case ${1:-} in
-    --help)
-        echo "Usage: $0 [version] [--init] [--help]"
-        ;;
-    --init)
-        init
-        ;;
-    *)
-        build "$@"
-        ;;
-esac
+print_usage() {
+    echo "Usage: $0 [version] [--init] [--help]"
+}
+
+debpackfile_path=Debpackfile
+debian_path=debian
+
+while getopts "hif:d:" opt; do
+    case ${opt} in
+        h)
+            print_usage
+            ;;
+        i)
+            init
+            ;;
+        f)
+            debpackfile_path=${OPTARG}
+            ;;
+        d)
+            debian_path=${OPTARG}
+            ;;
+        \?)
+            print_usage
+            exit 1
+            ;;
+        *)
+            ;;
+    esac
+done
+
+shift $(( OPTIND - 1 ))
+
+build "$@"
