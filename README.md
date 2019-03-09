@@ -48,20 +48,20 @@ First, some boilerplate:
 ```shell
 # Package metadata
 mkdir debian
-cat > debian/control << EOL
+cat > debian/control << EOF
 Package: ping
 Description: writes pong to stdout
 Version: 1.0.0
 Maintainer: Chris Rehn <chris@rehn.me>
 Architecture: all
-EOL
+EOF
 
 # Our main program
 echo -e '#!/bin/sh\necho pong' > ping
 chmod +x ping
 
-# Copy paths
-echo -e 'ping\t/usr/bin/' > Debpack
+# Where our program should be installed
+echo -e 'ping\t/usr/bin/' > Debpackfile
 ```
 
 Then build the package:
