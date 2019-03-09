@@ -43,10 +43,16 @@ For example, in Drone CI you could do:
 
 ## Example
 
-First, some boilerplate:
+First, let's create a simple program called `ping` that prints out `pong`:
 
 ```shell
-# Package metadata
+echo -e '#!/bin/sh\necho pong' > ping
+chmod +x ping
+```
+
+The package will need some metadata. Debian packages keep their metadata in a [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control).
+
+```shell
 mkdir debian
 cat > debian/control << EOF
 Package: ping
@@ -55,16 +61,15 @@ Version: 1.0.0
 Maintainer: Chris Rehn <chris@rehn.me>
 Architecture: all
 EOF
+```
 
-# Our main program
-echo -e '#!/bin/sh\necho pong' > ping
-chmod +x ping
+We also need to specify where our files will be copied when installing the package:
 
-# Where our program should be installed
+```shell
 echo -e 'ping\t/usr/bin/' > Debpackfile
 ```
 
-Then build the package:
+Finally, build the package:
 
 ```shell
 debpack
