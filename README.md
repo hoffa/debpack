@@ -14,13 +14,13 @@ curl -Lo /usr/local/bin/debpack https://raw.githubusercontent.com/hoffa/debpack/
 chmod +x /usr/local/bin/debpack
 ```
 
-Also requires `dpkg-dev`:
+You'll also need `dpkg-dev`:
 
 ```shell
 apt-get install dpkg-dev
 ```
 
-On macOS:
+In case you want to build on macOS:
 
 ```shell
 brew install dpkg fakeroot
