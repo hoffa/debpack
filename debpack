@@ -2,14 +2,20 @@
 set -euo pipefail
 
 patch_control() {
+    # Parse field
     key=$(echo "$2" | cut -d: -f1)
     value=$(echo "$2" | cut -d: -f2- | sed "s/^[[:space:]]*//")
 
-    grep -Fiv "${key}:" "$1" > "$1.tmp"
+    # Remove any pre-existing fields with same name
+    # Ignore non-zero exit if $1 is empty
+    grep -Fiv "${key}:" "$1" > "$1.tmp" || true
+
+    # Add new field
     echo "${key}: ${value}" >> "$1.tmp"
     mv "$1.tmp" "$1"
 }
 
+# Only output color if stdout is a TTY
 color_echo() {
     if [[ -t 1 ]]; then
         printf "\e[$1m==> %s\e[0m\n" "$2"
@@ -18,12 +24,16 @@ color_echo() {
     fi
 }
 
+red() {
+    color_echo "1;31" "$1"
+}
+
 green() {
     color_echo "1;32" "$1"
 }
 
-red() {
-    color_echo "1;31" "$1"
+yellow() {
+    color_echo "1;33" "$1"
 }
 
 cleanup() {
@@ -36,8 +46,14 @@ build() {
     cleanup
     mkdir -p .debpack/DEBIAN
 
+    # Allow building packages by only specifying fields through the command line
     green "Copying control file"
-    cp -v "${control_dir}/control" .debpack/DEBIAN/
+    control_file_path=${control_dir}/control
+    if [[ ! -f ${control_dir}/control ]]; then
+        yellow "Control file not found; assuming empty"
+        control_file_path=/dev/null
+    fi
+    cp -v "${control_file_path}" .debpack/DEBIAN/control
 
     green "Patching control file"
     for field in "$@"; do
@@ -47,7 +63,7 @@ build() {
         fi
         patch_control .debpack/DEBIAN/control "${field}"
     done
-    diff -u "${control_dir}/control" .debpack/DEBIAN/control || true
+    diff -u "${control_file_path}" .debpack/DEBIAN/control || true
 
     green "Copying maintainer scripts"
     for file in preinst postinst prerm postrm; do
@@ -58,15 +74,18 @@ build() {
     done
 
     green "Copying files"
-    # Fail if no Debpackfile
-    cat < "${debpackfile_path}" | while IFS= read -r line || [[ -n ${line} ]]; do
+    if [[ ! -f ${debpackfile_path} ]]; then
+        red "Debpackfile not found"
+        exit 1
+    fi
+    while IFS= read -r line || [[ -n ${line} ]]; do
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
         mkdir -p "${dst%/*}"
         # Allow source wildcards
         # shellcheck disable=SC2086
         cp -v ${src} "${dst}"
-    done
+    done < "${debpackfile_path}"
 
     green "Building package"
     fakeroot dpkg-deb --build .debpack
@@ -75,9 +94,7 @@ build() {
     dpkg --contents .debpack.deb
     dpkg-name --overwrite .debpack.deb
 
-    green "Cleaning up"
     cleanup
-
     green "Done"
 }
 
@@ -121,6 +138,6 @@ while getopts "hf:d:" opt; do
     esac
 done
 
+# Unprocessed opts are control fields
 shift $(( OPTIND - 1 ))
-
 build "$@"
