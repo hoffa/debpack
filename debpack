@@ -85,10 +85,17 @@ print_usage() {
     cat << EOF
 Usage: $0 [-h] [options] [fields...]
 
+Super simple Debian packages.
+
 Options:
+  -h       Show this message
   -d PATH  Control files directory (default: debian)
   -f FILE  Debpackfile path (default: Debpackfile)
-  -h       Show this message
+
+The package control file can be modified at build-time by
+specifying fields in the key:value format. For example:
+
+  debpack Version:1.0 Architecture:i386
 EOF
 }
 
