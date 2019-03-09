@@ -22,7 +22,7 @@ debpack
 
 You can easily overwrite the version at build-time:
 
-[Control file fields](https://www.debian.org/doc/debian-policy/ch-controlfields.html) can be easily overwritten at build-time:
+[Control file fields](https://www.debian.org/doc/debian-policy/ch-controlfields.html) can be easily modified at build-time:
 
 ```shell
 debpack Version:1.2.3 Architecture:i386
@@ -36,7 +36,7 @@ For example, in Drone CI you could do:
 - name: debpack
   image: hoffa/debpack
   commands:
-    - debpack ${DRONE_TAG}
+    - debpack Version:${DRONE_TAG}
   when:
     event: tag
 ```
