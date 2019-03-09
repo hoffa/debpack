@@ -28,7 +28,11 @@ patch_control() {
 }
 
 cecho() {
-    printf "\e[1;32m==> %s\e[0m\n" "$1"
+    if [[ -t 1 ]]; then
+        printf "\e[1;32m==> %s\e[0m\n" "$1"
+    else
+        echo "==> $1"
+    fi
 }
 
 cleanup() {
