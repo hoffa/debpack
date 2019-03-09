@@ -1,26 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-init() {
-    mkdir debian
-    cat > debian/control << EOL
-Package: hello-world
-Description: hello-world
-Version: 1.0.0
-Depends:
-Maintainer: Jane Doe <jane@doe.com>
-Architecture: all
-Section: misc
-Priority: required
-EOL
-    cat > hello-world << EOL
-#!/bin/sh
-echo "Hello, world!"
-EOL
-    chmod +x hello-world
-    printf "hello-world\t/usr/bin/" > .debpack
-}
-
 patch_control() {
     key=$(echo "$2" | cut -d: -f1)
     value=$(echo "$2" | cut -d: -f2- | sed "s/^[[:space:]]*//")
@@ -102,19 +82,16 @@ build() {
 }
 
 print_usage() {
-    echo "Usage: $0 [version] [--init] [--help]"
+    echo "Usage: $0 [version] [--help]"
 }
 
 debpackfile_path=Debpackfile
 debian_path=debian
 
-while getopts "hif:d:" opt; do
+while getopts "hf:d:" opt; do
     case ${opt} in
         h)
             print_usage
-            ;;
-        i)
-            init
             ;;
         f)
             debpackfile_path=${OPTARG}
