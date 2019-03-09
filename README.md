@@ -9,6 +9,8 @@ Adheres to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/)
 
 ## Installation
 
+Debpack is a single Bash script:
+
 ```shell
 curl -Lo /usr/local/bin/debpack https://raw.githubusercontent.com/hoffa/debpack/master/debpack
 chmod +x /usr/local/bin/debpack
@@ -20,7 +22,7 @@ You'll also need `dpkg-dev`:
 apt-get install dpkg-dev
 ```
 
-In case you want to build on macOS:
+Or, if you want to build on macOS:
 
 ```shell
 brew install dpkg fakeroot
