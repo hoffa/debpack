@@ -43,28 +43,34 @@ For example, in Drone CI you could do:
 
 ## Example
 
-First, generate the boilerplate:
+First, some boilerplate:
 
 ```shell
-debpack --init
+# Package metadata
+mkdir debian
+cat > debian/control << EOL
+Package: ping
+Description: writes pong to stdout
+Version: 1.0.0
+Maintainer: Chris Rehn <chris@rehn.me>
+Architecture: all
+EOL
+
+# Our main program
+echo -e '#!/bin/sh\necho pong' > ping
+chmod +x ping
+
+# Copy paths
+echo -e 'ping\t/usr/bin/' > Debpack
 ```
 
-It'll create the following file structure:
-
-```shell
-├── .debpack
-├── debian
-│   └── control
-└── hello-world
-```
-
-You can straight away build the package:
+Then build the package:
 
 ```shell
 debpack
 ```
 
-`.debpack` contains a list of tab-separated copy paths, for example:
+`Debpack` contains a list of tab-separated copy paths, for example:
 
 ```text
 hello-world	/usr/bin/
