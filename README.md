@@ -73,6 +73,8 @@ Architecture: all
 EOF
 ```
 
+> Note: you can also add [maintainer scripts](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html) (such as `postinst`, which will execute after installation) in the `debian` directory.
+
 We then create a `Debpackfile` that specifies where to copy the files when installing the package:
 
 ```shell
