@@ -56,7 +56,7 @@ For example, in Drone CI you could do:
 First, let's create a simple program called `ping` that outputs `pong`:
 
 ```shell
-echo -e '#!/bin/sh\necho pong' > ping
+echo 'echo pong' > ping
 chmod +x ping
 ```
 
