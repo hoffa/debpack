@@ -70,8 +70,6 @@ We then create a `Debpackfile` that specifies where to copy the files when insta
 echo -e 'ping\t/usr/bin/' > Debpackfile
 ```
 
-The `Debpackfile` uses a very simple format: each line contains a source and destination path, separated by a tab character.
-
 Finally, build the package:
 
 ```shell
