@@ -31,6 +31,10 @@ cleanup() {
 parse_control_field() {
     key=$(echo "$1" | cut -d: -f1)
     value=$(echo "$1" | cut -d: -f2- | sed "s/^[[:space:]]*//")
+    if [[ $1 != *:* ]] || [[ -z $key ]] || [[ -z $value ]]; then
+        red "Invalid field format: $1"
+        exit 1
+    fi
 }
 
 patch_control() {
@@ -63,10 +67,6 @@ build() {
 
     green "Patching control file"
     for field in "$@"; do
-        if [[ ${field} != *:* ]]; then
-            red "Invalid field format: ${field}"
-            exit 1
-        fi
         patch_control "${dst_control}" "${field}"
     done
     patch_control_if_missing "${dst_control}" Priority:optional
