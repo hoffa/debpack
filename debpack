@@ -37,6 +37,20 @@ parse_control_field() {
     fi
 }
 
+# https://www.debian.org/doc/debian-policy/ch-files.html#permissions-and-owners
+debianize_perms() {
+    find "$1" -type d | while read -r dir; do
+        chmod 0755 "${dir}"
+    done
+    find "$1" -type f | while read -r filename; do
+        if [[ -x ${filename} ]]; then
+            chmod 0755 "${filename}"
+        else
+            chmod 0644 "${filename}"
+        fi
+    done
+}
+
 patch_control() {
     parse_control_field "$2"
     grep -Fiv "${key}:" "$1" > "$1.tmp" || true
@@ -96,6 +110,9 @@ build() {
         # shellcheck disable=SC2086
         cp -v ${src} "${dst}"
     done < "${debpackfile_path}"
+
+    green "Fixing permissions"
+    debianize_perms .debpack
 
     green "Building package"
     fakeroot dpkg-deb --build .debpack
