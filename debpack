@@ -11,7 +11,7 @@ color_echo() {
 }
 
 plain() {
-    color_echo "1" "$1"
+    color_echo "32" "$1"
 }
 
 red() {
@@ -118,7 +118,7 @@ build() {
         mkdir -p "${dst%/*}"
         # Allow source wildcards
         # shellcheck disable=SC2086
-        cp ${src} "${dst}"
+        cp -R ${src} "${dst}"
     done < "${debpackfile_path}"
 
     green "Fixing permissions"
