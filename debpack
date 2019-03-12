@@ -99,7 +99,7 @@ build() {
     green "Copying files"
     # Don't allow empty packages
     if [[ ! -f ${debpackfile_path} ]]; then
-        red "Debpackfile not found"
+        red "${debpackfile_path} not found"
         exit 1
     fi
     while IFS= read -r line || [[ -n ${line} ]]; do
@@ -153,7 +153,12 @@ specifying fields in the key:value format. For example:
 EOF
 }
 
-debpackfile_path=Debpackfile
+# Read Debpackfile from stdin if not a TTY
+if [[ -t 0 ]]; then
+    debpackfile_path=Debpackfile
+else
+    debpackfile_path=/dev/stdin
+fi
 src_debian=debian
 
 while getopts ":hf:d:" opt; do
