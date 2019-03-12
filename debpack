@@ -156,12 +156,7 @@ specifying fields in the key:value format. For example:
 EOF
 }
 
-# Read Debpackfile from stdin if not a TTY
-if [[ -t 0 ]]; then
-    debpackfile_path=Debpackfile
-else
-    debpackfile_path=/dev/stdin
-fi
+debpackfile_path=Debpackfile
 src_debian=debian
 
 while getopts ":hf:d:" opt; do
@@ -171,7 +166,11 @@ while getopts ":hf:d:" opt; do
             exit
             ;;
         f)
-            debpackfile_path=${OPTARG}
+            if [[ ${OPTARG} == - ]]; then
+                debpackfile_path=/dev/stdin
+            else
+                debpackfile_path=${OPTARG}
+            fi
             ;;
         d)
             src_debian=${OPTARG}
