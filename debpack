@@ -70,6 +70,7 @@ build() {
         patch_control "${dst_control}" "${field}"
     done
     patch_control_if_missing "${dst_control}" Priority:optional
+    patch_control_if_missing "${dst_control}" Section:misc
     diff -u "${src_control}" "${dst_control}" || true
 
     green "Copying maintainer scripts"
