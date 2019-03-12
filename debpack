@@ -45,9 +45,9 @@ parse_control_field() {
 debianize_perms() {
     find "$1" | while read -r filename; do
         if [[ -d ${filename} ]] || [[ -x ${filename} ]]; then
-            chmod 0755 "${filename}"
+            chmod -v 0755 "${filename}"
         elif [[ -f ${filename} ]]; then
-            chmod 0644 "${filename}"
+            chmod -v 0644 "${filename}"
         fi
     done
 }
