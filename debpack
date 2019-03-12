@@ -98,7 +98,7 @@ build() {
 
     green "Copying files"
     # Don't allow empty packages
-    if [[ ! -f ${debpackfile_path} ]]; then
+    if [[ ! -e ${debpackfile_path} ]]; then
         red "${debpackfile_path} not found"
         exit 1
     fi
