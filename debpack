@@ -147,7 +147,7 @@ Super simple Debian packages.
 Options:
   -h       Show this message
   -d PATH  Control files directory (default: debian)
-  -f FILE  Debpackfile path (default: Debpackfile)
+  -f FILE  Debpackfile path (use - for stdin) (default: Debpackfile)
 
 The package control file can be modified at build-time by
 specifying fields in the key:value format. For example:
