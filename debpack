@@ -72,16 +72,17 @@ build() {
     mkdir -p "${dst_debian}"
 
     # Allow building packages by only specifying fields through the command line
-    green "Copying control file"
+    green "Copying package control file"
     dst_control=${dst_debian}/control
     src_control=${src_debian}/control
     if [[ ! -f ${src_control} ]]; then
         yellow "${src_control} not found; assuming empty"
         src_control=/dev/null
     fi
+    plain "${src_control} -> ${dst_control}"
     cp "${src_control}" "${dst_control}"
 
-    green "Patching control file"
+    green "Patching package control file"
     for field in "$@"; do
         patch_control "${dst_control}" "${field}"
     done
@@ -89,10 +90,12 @@ build() {
     patch_control_if_missing "${dst_control}" Section:misc
     diff -u "${src_control}" "${dst_control}" || true
 
-    green "Copying maintainer scripts"
-    for file in preinst postinst prerm postrm; do
-        if [[ -f ${src_debian}/${file} ]]; then
-            cp "${src_debian}/${file}" "${dst_debian}"
+    green "Copying other control files"
+    for file in changelog copyright preinst postinst prerm postrm rules; do
+        src=${src_debian}/${file}
+        if [[ -f ${src} ]]; then
+            plain "${src} -> ${dst_debian}"
+            cp "${src}" "${dst_debian}"
         fi
     done
 
