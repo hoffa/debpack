@@ -89,7 +89,6 @@ build() {
     for file in preinst postinst prerm postrm; do
         if [[ -f ${src_debian}/${file} ]]; then
             cp -v "${src_debian}/${file}" "${dst_debian}"
-            chmod 0755 "${dst_debian}/${file}"
         fi
     done
 
