@@ -1,3 +1,6 @@
 language: shell
+services:
+  - docker
 script:
   - shellcheck debpack
+  - docker build -t hoffa/debpack .
