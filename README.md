@@ -55,10 +55,10 @@ The package will need some metadata. Debian packages keep their metadata in a [p
 mkdir debian
 cat > debian/control << EOF
 Package: hello
-Version: 1.0.0
-Maintainer: Jane Doe <jane@doe.com>
 Description: writes world to stdout
+Maintainer: Jane Doe <jane@doe.com>
 Architecture: all
+Version: 1.0.0
 EOF
 ```
 
