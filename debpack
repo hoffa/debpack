@@ -10,6 +10,10 @@ color_echo() {
     fi
 }
 
+plain() {
+    color_echo "1" "$1"
+}
+
 red() {
     color_echo "1;31" "$1"
 }
@@ -110,6 +114,7 @@ build() {
         fi
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
+        plain "${src} -> ${dst}"
         mkdir -p "${dst%/*}"
         # Allow source wildcards
         # shellcheck disable=SC2086
