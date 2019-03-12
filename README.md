@@ -42,7 +42,7 @@ You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) D
 
 ## Example
 
-First, let's create a simple program called `ping` that outputs `pong`:
+First, let's create a program called `ping` that outputs `pong`:
 
 ```shell
 echo 'echo pong' > ping
