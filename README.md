@@ -77,3 +77,10 @@ Finally, build the package:
 ```shell
 debpack
 ```
+
+# Debpackfile format
+
+- Each line consists of a source and destination path, separated by a tab character
+- Multiple paths and wildcards are allowed in the source path
+- Lines that start with `#` are ignored
+- Empty lines are ignored
