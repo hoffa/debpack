@@ -32,24 +32,13 @@ brew install dpkg fakeroot
 debpack
 ```
 
-[Control file fields](https://www.debian.org/doc/debian-policy/ch-controlfields.html) can be easily modified at build-time:
+[Package control file fields](https://www.debian.org/doc/debian-policy/ch-controlfields.html) can be easily modified at build-time:
 
 ```shell
-debpack Version:1.2.3 Architecture:i386
+debpack Version:1.2.3
 ```
 
 You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) Docker image.
-
-For example, in Drone CI you could do:
-
-```yaml
-- name: debpack
-  image: hoffa/debpack
-  commands:
-    - debpack Version:${DRONE_TAG}
-  when:
-    event: tag
-```
 
 ## Example
 
@@ -60,7 +49,7 @@ echo 'echo pong' > ping
 chmod +x ping
 ```
 
-The package will need some metadata. Debian packages keep their metadata in a [control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control), located in `debian/control`:
+The package will need some metadata. Debian packages keep their metadata in a [package control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control), located in `debian/control`:
 
 ```shell
 mkdir debian
@@ -73,7 +62,7 @@ Architecture: all
 EOF
 ```
 
-> Note: you can also add [maintainer scripts](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html) (such as `postinst`, which will execute after installation) in the `debian` directory.
+> Note: you can also add [maintainer scripts](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html) (such as `postinst`, which will execute after installation) to the `debian` directory.
 
 We then create a `Debpackfile` that specifies where to copy the files when installing the package:
 
@@ -83,7 +72,7 @@ echo -e 'ping\t/usr/bin/' > Debpackfile
 
 The `Debpackfile` uses a very simple format: each line contains a source and destination path, separated by a tab character.
 
-Finally, we can build the package:
+Finally, build the package:
 
 ```shell
 debpack
