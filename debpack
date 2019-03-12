@@ -28,18 +28,23 @@ cleanup() {
     fi
 }
 
+parse_control_field() {
+    key=$(echo "$1" | cut -d: -f1)
+    value=$(echo "$1" | cut -d: -f2- | sed "s/^[[:space:]]*//")
+}
+
 patch_control() {
-    # Parse field
-    key=$(echo "$2" | cut -d: -f1)
-    value=$(echo "$2" | cut -d: -f2- | sed "s/^[[:space:]]*//")
-
-    # Remove any pre-existing fields with same name
-    # Ignore non-zero exit if $1 is empty
+    parse_control_field "$2"
     grep -Fiv "${key}:" "$1" > "$1.tmp" || true
-
-    # Add new field
     echo "${key}: ${value}" >> "$1.tmp"
     mv "$1.tmp" "$1"
+}
+
+patch_control_if_missing() {
+    parse_control_field "$2"
+    if ! grep -Fi "${key}:" "$1"; then
+        echo "${key}: ${value}" >> "$1"
+    fi
 }
 
 build() {
@@ -48,12 +53,13 @@ build() {
 
     # Allow building packages by only specifying fields through the command line
     green "Copying control file"
-    control_file_path=${control_dir}/control
-    if [[ ! -f ${control_file_path} ]]; then
-        yellow "${control_file_path} not found; assuming empty"
-        control_file_path=/dev/null
+    dst_control=.debpack/DEBIAN/control
+    src_control=${control_dir}/control
+    if [[ ! -f ${src_control} ]]; then
+        yellow "${src_control} not found; assuming empty"
+        src_control=/dev/null
     fi
-    cp -v "${control_file_path}" .debpack/DEBIAN/control
+    cp -v "${src_control}" "${dst_control}"
 
     green "Patching control file"
     for field in "$@"; do
@@ -61,9 +67,10 @@ build() {
             red "Invalid field format: ${field}"
             exit 1
         fi
-        patch_control .debpack/DEBIAN/control "${field}"
+        patch_control "${dst_control}" "${field}"
     done
-    diff -u "${control_file_path}" .debpack/DEBIAN/control || true
+    patch_control_if_missing "${dst_control}" Priority:optional
+    diff -u "${src_control}" "${dst_control}" || true
 
     green "Copying maintainer scripts"
     for file in preinst postinst prerm postrm; do
