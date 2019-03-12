@@ -42,11 +42,11 @@ You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) D
 
 ## Example
 
-First, let's create a program called `ping` that outputs `pong`:
+First, let's create a program called `hello` that outputs `world`:
 
 ```shell
-echo 'echo pong' > ping
-chmod +x ping
+echo 'echo world' > hello
+chmod +x hello
 ```
 
 The package will need some metadata. Debian packages keep their metadata in a [package control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control), located in `debian/control`:
@@ -54,10 +54,10 @@ The package will need some metadata. Debian packages keep their metadata in a [p
 ```shell
 mkdir debian
 cat > debian/control << EOF
-Package: ping
+Package: hello
 Version: 1.0.0
 Maintainer: Jane Doe <jane@doe.com>
-Description: writes pong to stdout
+Description: writes world to stdout
 Architecture: all
 EOF
 ```
@@ -67,7 +67,7 @@ EOF
 We then create a `Debpackfile` that specifies where to copy the files when installing the package:
 
 ```shell
-echo -e 'ping\t/usr/bin/' > Debpackfile
+echo -e 'hello\t/usr/bin/' > Debpackfile
 ```
 
 Finally, build the package:
