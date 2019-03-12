@@ -99,6 +99,9 @@ build() {
         exit 1
     fi
     while IFS= read -r line || [[ -n ${line} ]]; do
+        if [[ -z ${line} ]]; then
+            continue
+        fi
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
         mkdir -p "${dst%/*}"
