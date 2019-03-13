@@ -115,9 +115,9 @@ build() {
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
         mkdir -p "${dst%/*}"
+        plain "${src} -> ${dst}"
         # Allow source wildcards
         # shellcheck disable=SC2086
-        plain "${src} -> ${dst}"
         cp -R ${src} "${dst}"
     done < "${debpackfile_path}"
 
