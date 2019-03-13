@@ -26,12 +26,6 @@ yellow() {
     color_echo "1;33" "$1"
 }
 
-cleanup() {
-    if [[ -d .debpack ]]; then
-        rm -r .debpack
-    fi
-}
-
 parse_control_field() {
     key=$(echo "$1" | cut -d: -f1)
     value=$(echo "$1" | cut -d: -f2- | sed "s/^[[:space:]]*//")
@@ -67,7 +61,10 @@ patch_control_if_missing() {
 }
 
 build() {
-    cleanup
+    # Cleanup
+    if [[ -d .debpack ]]; then
+        rm -r .debpack
+    fi
     dst_debian=.debpack/DEBIAN
     mkdir -p "${dst_debian}"
 
@@ -117,10 +114,10 @@ build() {
         fi
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
-        plain "${src} -> ${dst}"
         mkdir -p "${dst%/*}"
         # Allow source wildcards
         # shellcheck disable=SC2086
+        plain "${src} -> ${dst}"
         cp -R ${src} "${dst}"
     done < "${debpackfile_path}"
 
@@ -134,7 +131,6 @@ build() {
     dpkg --contents .debpack.deb
     dpkg-name --overwrite .debpack.deb
 
-    cleanup
     green "Done"
 }
 
