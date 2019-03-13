@@ -5,7 +5,7 @@
 
 Super simple Debian packages.
 
-Adheres to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/) where reasonable, without bogging you down with needless ceremony.
+Aims to keep [Lintian](https://lintian.debian.org) happy and adhere to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/) where reasonable, without bogging you down with needless ceremony.
 
 ## Installation
 
