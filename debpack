@@ -26,12 +26,16 @@ yellow() {
     color_echo "1;33" "$1"
 }
 
+fatal() {
+    red "$1"
+    exit 1
+}
+
 parse_control_field() {
     key=$(echo "$1" | cut -d: -f1)
     value=$(echo "$1" | cut -d: -f2- | sed "s/^[[:space:]]*//")
     if [[ $1 != *:* ]] || [[ -z $key ]] || [[ -z $value ]]; then
-        red "Invalid format: $1"
-        exit 1
+        fatal "Invalid format: $1"
     fi
 }
 
@@ -99,8 +103,7 @@ build() {
     green "Copying files"
     # Don't allow empty packages
     if [[ ! -e ${debpackfile_path} ]]; then
-        red "${debpackfile_path} not found"
-        exit 1
+        fatal "${debpackfile_path} not found"
     fi
     while IFS= read -r line || [[ -n ${line} ]]; do
         # Ignore empty and comment lines
@@ -109,8 +112,7 @@ build() {
         fi
         # Make sure we have a tab character
         if [[ ${line} != *$(printf "\t")* ]]; then
-            red "Invalid format: ${line}"
-            exit 1
+            fatal "Invalid format: ${line}"
         fi
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
