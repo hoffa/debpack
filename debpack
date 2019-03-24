@@ -40,7 +40,7 @@ parse_control_field() {
 }
 
 # https://www.debian.org/doc/debian-policy/ch-files.html#permissions-and-owners
-debianize_perms() {
+normalize_perms() {
     find "$1" | while read -r filename; do
         if [[ -d ${filename} ]] || [[ -x ${filename} ]]; then
             chmod 0755 "${filename}"
@@ -123,8 +123,8 @@ build() {
         cp -R ${src} "${dst}"
     done < "${debpackfile_path}"
 
-    green "Fixing permissions"
-    debianize_perms .debpack
+    green "Normalizing permissions"
+    normalize_perms .debpack
 
     green "Building package"
     fakeroot dpkg-deb --build .debpack
