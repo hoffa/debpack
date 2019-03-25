@@ -92,7 +92,7 @@ build() {
     diff -u "${src_control}" "${dst_control}" || true
 
     green "Copying other control files"
-    for file in changelog copyright preinst postinst prerm postrm rules; do
+    for file in changelog conffiles copyright preinst postinst prerm postrm rules; do
         src=${src_debian}/${file}
         if [[ -f ${src} ]]; then
             plain "${src} -> ${dst_debian}"
