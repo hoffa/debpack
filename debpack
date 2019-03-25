@@ -39,17 +39,6 @@ parse_control_field() {
     fi
 }
 
-# https://www.debian.org/doc/debian-policy/ch-files.html#permissions-and-owners
-normalize_perms() {
-    find "$1" | while read -r filename; do
-        if [[ -d ${filename} ]] || [[ -x ${filename} ]]; then
-            chmod 0755 "${filename}"
-        elif [[ -f ${filename} ]]; then
-            chmod 0644 "${filename}"
-        fi
-    done
-}
-
 patch_control() {
     parse_control_field "$2"
     grep -Fiv "${key}:" "$1" > "$1.tmp" || true
@@ -62,6 +51,17 @@ patch_control_if_missing() {
     if ! grep -Fi "${key}:" "$1"; then
         echo "${key}: ${value}" >> "$1"
     fi
+}
+
+# https://www.debian.org/doc/debian-policy/ch-files.html#permissions-and-owners
+normalize_perms() {
+    find "$1" | while read -r filename; do
+        if [[ -d ${filename} ]] || [[ -x ${filename} ]]; then
+            chmod 0755 "${filename}"
+        elif [[ -f ${filename} ]]; then
+            chmod 0644 "${filename}"
+        fi
+    done
 }
 
 build() {
@@ -145,7 +145,7 @@ Super simple Debian packages.
 Options:
   -h       Show this message
   -d PATH  Control files directory (default: debian)
-  -f FILE  Debpackfile path (use - for stdin) (default: Debpackfile)
+  -f FILE  Debpackfile path (- for stdin) (default: Debpackfile)
 
 The package control file can be modified at build-time by
 specifying fields in the key:value format. For example:
