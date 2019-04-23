@@ -104,6 +104,7 @@ build() {
         fi
         src=$(echo "${line}" | cut -f1)
         dst=.debpack$(echo "${line}" | cut -f2)
+        # Create directories up to last slash
         mkdir -p "${dst%/*}"
         plain "${src} -> ${dst}"
         # Allow source wildcards
