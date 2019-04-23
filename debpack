@@ -77,12 +77,13 @@ build() {
     green "Copying package control file"
     dst_control=${dst_debian}/control
     src_control=${src_debian}/control
-    if [[ ! -f ${src_control} ]]; then
+    if [[ -f ${src_control} ]]; then
+        plain "${src_control} -> ${dst_control}"
+        cp "${src_control}" "${dst_control}"
+    else
         yellow "${src_control} not found; assuming empty"
-        src_control=/dev/null
+        touch "${dst_control}"
     fi
-    plain "${src_control} -> ${dst_control}"
-    cp "${src_control}" "${dst_control}"
 
     green "Patching package control file"
     for field in "$@"; do
