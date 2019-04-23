@@ -43,13 +43,6 @@ patch_control() {
     mv "$1.tmp" "$1"
 }
 
-patch_control_if_missing() {
-    parse_control_field "$2"
-    if ! grep -Fi "${key}:" "$1"; then
-        echo "${key}: ${value}" >> "$1"
-    fi
-}
-
 # https://www.debian.org/doc/debian-policy/ch-files.html#permissions-and-owners
 normalize_perms() {
     find "$1" | while read -r filename; do
@@ -85,8 +78,6 @@ build() {
     for field in "$@"; do
         patch_control "${dst_control}" "${field}"
     done
-    patch_control_if_missing "${dst_control}" Priority:optional
-    patch_control_if_missing "${dst_control}" Section:misc
 
     green "Copying other control files"
     for file in changelog conffiles copyright preinst postinst prerm postrm rules; do
