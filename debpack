@@ -31,6 +31,7 @@ fatal() {
     exit 1
 }
 
+# Parses package control file field into $key and $value
 parse_control_field() {
     key=$(echo "$1" | cut -d: -f1)
     value=$(echo "$1" | cut -d: -f2- | sed "s/^[[:space:]]*//")
@@ -89,7 +90,6 @@ build() {
     done
     patch_control_if_missing "${dst_control}" Priority:optional
     patch_control_if_missing "${dst_control}" Section:misc
-    diff -u "${src_control}" "${dst_control}" || true
 
     green "Copying other control files"
     for file in changelog conffiles copyright preinst postinst prerm postrm rules; do
