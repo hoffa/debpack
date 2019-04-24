@@ -59,21 +59,12 @@ build() {
     if [[ -d .debpack ]]; then
         rm -r .debpack
     fi
-    dst_debian=.debpack/DEBIAN
-    mkdir -p "${dst_debian}"
 
     green "Copying files"
 
-    # Copy control files
-    # https://www.debian.org/doc/debian-policy/ch-controlfields.html
-    # https://www.debian.org/doc/manuals/maint-guide/dother.en.html
-    for file in changelog conffiles control copyright preinst postinst prerm postrm rules; do
-        src=${src_debian}/${file}
-        if [[ -f ${src} ]]; then
-            plain "${src} -> ${dst_debian}"
-            cp "${src}" "${dst_debian}"
-        fi
-    done
+    mkdir -p .debpack/DEBIAN/
+    plain "${src_debian}/ -> .debpack/DEBIAN/"
+    cp -R "${src_debian}/" .debpack/DEBIAN/
 
     # Allow in case all fields are set through args
     if [[ ! -f ${src_debian}/control ]]; then
@@ -106,7 +97,7 @@ build() {
 
     green "Patching package control file"
     for field in "$@"; do
-        patch_control "${dst_debian}/control" "${field}"
+        patch_control .debpack/DEBIAN/control "${field}"
     done
 
     green "Normalizing permissions"
