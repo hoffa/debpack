@@ -45,7 +45,7 @@ patch_control() {
 
 # https://www.debian.org/doc/debian-policy/ch-files.html#permissions-and-owners
 normalize_perms() {
-    find "$1" | while read -r filename; do
+    find "$1" | while IFS= read -r filename; do
         if [[ -d ${filename} ]] || [[ -x ${filename} ]]; then
             chmod 0755 "${filename}"
         elif [[ -f ${filename} ]]; then
