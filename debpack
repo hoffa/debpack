@@ -62,9 +62,11 @@ build() {
     dst_debian=.debpack/DEBIAN
     mkdir -p "${dst_debian}"
 
+    green "Copying files"
+
+    # Copy control files
     # https://www.debian.org/doc/debian-policy/ch-controlfields.html
     # https://www.debian.org/doc/manuals/maint-guide/dother.en.html
-    green "Copying control files"
     for file in changelog conffiles control copyright preinst postinst prerm postrm rules; do
         src=${src_debian}/${file}
         if [[ -f ${src} ]]; then
@@ -78,12 +80,7 @@ build() {
         yellow "${src_debian}/control not found; assuming empty"
     fi
 
-    green "Patching package control file"
-    for field in "$@"; do
-        patch_control "${dst_debian}/control" "${field}"
-    done
-
-    green "Copying files"
+    # Copy files in Debpackfile
     # Don't allow empty packages
     if [[ ! -e ${debpackfile_path} ]]; then
         fatal "${debpackfile_path} not found"
@@ -106,6 +103,11 @@ build() {
         # shellcheck disable=SC2086
         cp -R ${src} "${dst}"
     done < "${debpackfile_path}"
+
+    green "Patching package control file"
+    for field in "$@"; do
+        patch_control "${dst_debian}/control" "${field}"
+    done
 
     green "Normalizing permissions"
     normalize_perms .debpack
