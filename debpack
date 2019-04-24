@@ -10,10 +10,6 @@ color_echo() {
     fi
 }
 
-plain() {
-    color_echo "32" "$1"
-}
-
 green() {
     color_echo "1;32" "$1"
 }
@@ -63,9 +59,7 @@ build() {
     fi
 
     green "Copying files"
-
     mkdir -p .debpack/DEBIAN/
-    plain "${src_debian}/ -> .debpack/DEBIAN/"
     cp -R "${src_debian}/" .debpack/DEBIAN/
 
     # Allow in case all fields are set through args
@@ -91,7 +85,6 @@ build() {
         dst=.debpack$(echo "${line}" | cut -f2)
         # Create directories up to last slash
         mkdir -p "${dst%/*}"
-        plain "${src} -> ${dst}"
         # Allow source wildcards
         # shellcheck disable=SC2086
         cp -R ${src} "${dst}"
