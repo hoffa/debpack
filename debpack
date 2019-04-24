@@ -62,6 +62,8 @@ build() {
     dst_debian=.debpack/DEBIAN
     mkdir -p "${dst_debian}"
 
+    # https://www.debian.org/doc/debian-policy/ch-controlfields.html
+    # https://www.debian.org/doc/manuals/maint-guide/dother.en.html
     green "Copying control files"
     for file in changelog conffiles control copyright preinst postinst prerm postrm rules; do
         src=${src_debian}/${file}
@@ -71,6 +73,7 @@ build() {
         fi
     done
 
+    # Allow in case all fields are set through args
     if [[ ! -f ${src_debian}/control ]]; then
         yellow "${src_debian}/control not found; assuming empty"
     fi
