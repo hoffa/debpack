@@ -50,6 +50,8 @@ normalize_perms() {
             chmod 0755 "${filename}"
         elif [[ -f ${filename} ]]; then
             chmod 0644 "${filename}"
+        else
+            fatal "${filename} is neither a file nor a directory"
         fi
     done
 }
