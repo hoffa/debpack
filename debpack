@@ -112,7 +112,7 @@ build() {
 
 print_usage() {
     cat << EOF
-Usage: $0 [-h] [options] [fields...]
+Usage: debpack [-h] [options] [fields...]
 
 Super simple Debian packages.
 
