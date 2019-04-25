@@ -99,9 +99,9 @@ build() {
     normalize_perms .debpack
 
     green "Building package"
-    fakeroot dpkg-deb --build .debpack
+    fakeroot dpkg --build .debpack
 
-    dpkg-deb --info .debpack.deb
+    dpkg --info .debpack.deb
     dpkg --contents .debpack.deb
     dpkg-name --overwrite .debpack.deb
 
