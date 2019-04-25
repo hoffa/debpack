@@ -60,11 +60,13 @@ build() {
 
     green "Copying files"
     mkdir -p .debpack/DEBIAN/
-    cp -R "${src_debian}/." .debpack/DEBIAN/
+    if [[ -d ${src_debian} ]]; then
+        cp -R "${src_debian}/." .debpack/DEBIAN/
+    fi
 
     # Allow in case all fields are set through args
-    if [[ ! -f ${src_debian}/control ]]; then
-        yellow "${src_debian}/control not found; assuming empty"
+    if [[ ! -f .debpack/DEBIAN/control ]]; then
+        yellow "Package control file not found; assuming empty"
     fi
 
     # Copy files in Debpackfile
