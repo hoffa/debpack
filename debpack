@@ -60,7 +60,7 @@ build() {
 
     green "Copying files"
     mkdir -p .debpack/DEBIAN/
-    cp -R "${src_debian}/" .debpack/DEBIAN/
+    cp -R "${src_debian}/." .debpack/DEBIAN/
 
     # Allow in case all fields are set through args
     if [[ ! -f ${src_debian}/control ]]; then
