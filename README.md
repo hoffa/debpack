@@ -84,4 +84,3 @@ debpack
 - Each line has a source and destination path, separated by a tab character
 - Wildcards are allowed in the source path
 - Lines that start with `#` are ignored
-- Empty lines are ignored
