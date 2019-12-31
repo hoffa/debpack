@@ -1,6 +1,6 @@
 # 📦 debpack
 
-[![Build Status](https://travis-ci.com/hoffa/debpack.svg?branch=master)](https://travis-ci.com/hoffa/debpack)
+[![Build Status](https://github.com/hoffa/debpack/workflows/.github/workflows/workflow.yml/badge.svg)](https://github.com/hoffa/debpack/actions)
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/hoffa/debpack.svg)](https://hub.docker.com/r/hoffa/debpack)
 
 Super simple Debian packages.
