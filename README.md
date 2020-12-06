@@ -40,8 +40,6 @@ debpack
 debpack Version:1.2.3
 ```
 
-You can also use the [`hoffa/debpack`](https://hub.docker.com/r/hoffa/debpack) Docker image.
-
 ## Example
 
 First, let's create a program called `hello` that outputs `world`:
