@@ -1,7 +1,5 @@
 # 📦 debpack
 
-[![Build Status](https://github.com/hoffa/debpack/workflows/.github/workflows/workflow.yml/badge.svg)](https://github.com/hoffa/debpack/actions)
-
 Super simple Debian packages.
 
 Aims to keep [Lintian](https://lintian.debian.org) happy and adhere to the [Debian Policy Manual](https://www.debian.org/doc/debian-policy/) where reasonable, without bogging you down with needless ceremony.
